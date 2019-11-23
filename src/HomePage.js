@@ -76,7 +76,7 @@ function HomePage({ feedsStore }) {
   }
   return (
     <Layout feedsStore={feedsStore}>
-      <div className="home-page">
+      <div className="home-page vertical-center">
         <h1 className="center">RSS Reader</h1>
         <h2 className="center">
           Enter your favorite website and get the feeds!
@@ -94,7 +94,7 @@ function HomePage({ feedsStore }) {
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Row>
                 <Form.Group as={Col} md="12" controlId="url">
-                  <Form.Label>URL</Form.Label>
+                  {/* <Form.Label>URL</Form.Label> */}
                   <Form.Control
                     type="text"
                     name="url"
@@ -113,7 +113,7 @@ function HomePage({ feedsStore }) {
           )}
         </Formik>
         <br />
-        {feedsStore.feeds.map((f, i) => {
+        {/* {feedsStore.feeds.map((f, i) => {
           return (
             <Card key={i}>
               <Card.Title className="card-title">{f.name}</Card.Title>
@@ -134,7 +134,7 @@ function HomePage({ feedsStore }) {
               </Card.Body>
             </Card>
           );
-        })}
+        })} */}
       </div>
     </Layout>
   );

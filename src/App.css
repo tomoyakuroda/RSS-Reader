@@ -1,6 +1,13 @@
 .App {
   text-align: center;
   overflow-x: hidden;
+
+  background-image: url('./assets/blue.jpg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
+	height: 100vh;
 }
 
 .App-logo {
@@ -16,6 +23,8 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+
+  
 }
 
 .App-link {
@@ -25,3 +34,4 @@
 .center{
   text-align:center;
 }
+
