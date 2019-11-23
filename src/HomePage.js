@@ -43,6 +43,7 @@ function HomePage({ feedsStore }) {
       feedsStore.feeds.push(evt);
       feedsStore.setFeeds(feedsStore.feeds);
       localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
+      evt.url=''
     } catch (err) {
       alert("Fail to get the Rss feeds");
     }
@@ -76,7 +77,7 @@ function HomePage({ feedsStore }) {
   return (
     <Layout feedsStore={feedsStore}>
       <div className="home-page">
-        <h1 className="center">RSS Feeds</h1>
+        <h1 className="center">RSS Reader</h1>
         <h2 className="center">
           Enter your favorite website and get the feeds!
         </h2>

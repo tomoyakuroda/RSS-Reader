@@ -49,7 +49,8 @@ function FeedPage({ feedsStore, location }) {
     <Layout feedsStore={feedsStore}>
       <div className="feed-page">
         <h1 className="center title">
-          <img src={data.image} height='50px' width='50px' /> {data.title}{" "}
+          {data.image ? <img src={data.image} height='50px' width='50px' /> : null}
+           {data.title}{" "}
           <Button variant="danger" onClick={() => deleteFeed(feedsStore.feed)}>
             Delete
           </Button>
