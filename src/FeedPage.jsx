@@ -11,6 +11,7 @@ const querystring = require("querystring");
 function FeedPage({ feedsStore, location }) {
   const [listings, setListings] = useState([]);
   const [data, setData] = useState({});
+  const [currentFeedURL, setCurrentFeedURL]=useState('')
   const getListings = async url => {
     try {
       const response = await getFeedListing(url);
@@ -38,6 +39,7 @@ function FeedPage({ feedsStore, location }) {
     if (querystring.decode(location.search)["?url"]) {
       const url = querystring.decode(location.search)["?url"];
       getListings(url);
+      setCurrentFeedURL(url)
       // feedsStore.setFeeds()
     }
   }, [feedsStore.feed]);
@@ -47,7 +49,7 @@ function FeedPage({ feedsStore, location }) {
         <h1 className="center title">
           {data.image ? <img src={data.image} height='50px' width='50px' /> : null}
            {data.title}{" "}
-          <Button variant="danger" onClick={() => deleteFeed(feedsStore.feed)}>
+          <Button variant="danger" onClick={() => deleteFeed(currentFeedURL)}>
             Delete
           </Button>
         </h1>

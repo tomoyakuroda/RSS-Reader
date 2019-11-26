@@ -82,7 +82,7 @@ function Sidebar({ location, feedsStore }) {
               key={feed.name}
               to={`feed?url=${feed.url}`}
               active={location.pathname === `feed?url=${feed.url}`}
-              onClick={() => setSelectedFeed(feed.url)}
+              onClick={() => setSelectedFeed(feed)}
               style={{ textDecoration: 'none', color:'initial' }}
             >
               <ListItem button>
