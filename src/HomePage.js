@@ -22,7 +22,7 @@ const schema = yup.object({
 });
 function HomePage({ feedsStore }) {
   const [initialized, setInitialized] = useState(false);
-  const [feedURL, setFeedURL] = useState('');
+  // const [feedURL, setFeedURL] = useState('');
   const [response, setResponse] =useState({})
 
   const handleSubmit = async evt => {
@@ -30,27 +30,13 @@ function HomePage({ feedsStore }) {
     if (!isValid) {
       return;
     }
-
       try{
-      const res = await getFeedListing(evt.url);
-      setResponse(res)
-      setFeedURL(evt.url)
-  }catch(err){ console.log(err) }
-      if(feedURL===''){
-        try {
-       const URL = await getFeedURL(evt.url)
-       const res = await getFeedListing(URL);
-       setResponse(res)
-       setFeedURL(URL)
-        }catch(error){
-          alert("Fail to get the Rss feeds");
-          return;
-        }
-      }
-      // const feedURL = await getFeedURL(evt.url)
-      // const response = await getFeedListing(feedURL);
-      evt.name = await response.data.feed.title;
-      evt.url= await feedURL
+      const response = await getFeedListing(evt.url);
+      // setResponse(res)
+      // setFeedURL(evt.url)
+      evt.name =  response.data.feed.title;
+      // evt.url=  feedURL
+
       let flag=true
       for(let i=0; i<feedsStore.feeds.length && flag===true;i++){
       feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :flag=true)
@@ -63,6 +49,55 @@ function HomePage({ feedsStore }) {
       feedsStore.feeds.push(evt);
       feedsStore.setFeeds(feedsStore.feeds);
       localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
+
+
+  }catch(err){ 
+    try {
+      const URL = await getFeedURL(evt.url)
+      const response = await getFeedListing(URL);
+     //  setResponse(res)
+     //  setFeedURL(URL)
+     evt.name =  response.data.feed.title;
+     evt.url=  URL
+
+
+     let flag=true
+     for(let i=0; i<feedsStore.feeds.length && flag===true;i++){
+     feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :flag=true)
+     }
+     if(!flag) {
+       alert('Duplicate Feed')
+       return;
+     }
+     console.log('evt', evt)
+     feedsStore.feeds.push(evt);
+     feedsStore.setFeeds(feedsStore.feeds);
+     localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
+
+
+       }catch(error){
+         alert("Fail to get the Rss feeds");
+         return;
+       }
+   }
+
+      //   try {
+      //  const URL = await getFeedURL(evt.url)
+      //  const response = await getFeedListing(URL);
+      // //  setResponse(res)
+      // //  setFeedURL(URL)
+      // evt.name =  response.data.feed.title;
+      // evt.url=  URL
+      //   }catch(error){
+      //     alert("Fail to get the Rss feeds");
+      //     return;
+      //   }
+      
+      // const feedURL = await getFeedURL(evt.url)
+      // const response = await getFeedListing(feedURL);
+      // evt.name =  response.data.feed.title;
+      // evt.url=  feedURL
+
      
   };
   const setSelectedFeed = url => {
