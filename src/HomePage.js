@@ -34,14 +34,14 @@ function HomePage({ feedsStore }) {
       try{
       const res = await getFeedListing(evt.url);
       setResponse(res)
-      //setFeedURL(evt.url)
+      setFeedURL(evt.url)
   }catch(err){ console.log(err) }
       if(feedURL===''){
         try {
        const URL = await getFeedURL(evt.url)
        const res = await getFeedListing(URL);
        setResponse(res)
-      //  setFeedURL(URL)
+       setFeedURL(URL)
         }catch(error){
           alert("Fail to get the Rss feeds");
           return;
@@ -60,7 +60,6 @@ function HomePage({ feedsStore }) {
         return;
       }
       
-
       feedsStore.feeds.push(evt);
       feedsStore.setFeeds(feedsStore.feeds);
       localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
