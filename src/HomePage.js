@@ -32,7 +32,7 @@ function HomePage({ feedsStore }) {
     }
 
       const originalResponse = await getFeedListing(evt.url);
-
+      console.log(originalResponse)
       if(originalResponse){
         setFeedURL(evt.url)
       }else{
