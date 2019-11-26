@@ -63,10 +63,14 @@ function Sidebar({ location, feedsStore }) {
   const drawer = (
     <div>
       {/* <div className={classes.toolbar} /> */}
+      <Link to="/"  style={{ textDecoration: 'none', color:'initial' }}>
+
       <Image src={logo} fluid /> 
+      </Link>
+
       <Divider />
       <List>
-        <Link to="/" active={location.pathname === "/"} style={{ textDecoration: 'none', color:'initial' }}>
+        <Link to="/" style={{ textDecoration: 'none', color:'initial' }}>
           <ListItem button>
             <ListItemText primary="Home" />
           </ListItem>

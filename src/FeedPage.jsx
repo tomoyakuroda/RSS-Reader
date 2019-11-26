@@ -9,8 +9,6 @@ import { getFeedListing } from "./requests";
 import Layout from "./components/layout";
 const querystring = require("querystring");
 function FeedPage({ feedsStore, location }) {
-  const [initialized, setInitialized] = useState(false);
-  const [url, setUrl] = useState("");
   const [listings, setListings] = useState([]);
   const [data, setData] = useState({});
   const getListings = async url => {
@@ -27,22 +25,20 @@ function FeedPage({ feedsStore, location }) {
   };
 
   const deleteFeed = item => {
-    feedsStore.feeds.splice(
-      feedsStore.feeds.findIndex(element => element === item),
-      1
-    );
-    feedsStore.setFeeds(feedsStore.feeds);
+    // feedsStore.feeds.splice(
+    //   feedsStore.feeds.findIndex(element => element === item),1
+    // );
+    let newFeeds=    feedsStore.feeds.filter(element=>element!==item)
+
+    feedsStore.setFeeds(newFeeds);
     localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
   };
 
   useEffect(() => {
-    // if (!initialized) {
     if (querystring.decode(location.search)["?url"]) {
       const url = querystring.decode(location.search)["?url"];
-      setUrl(url);
       getListings(url);
-      setInitialized(true);
-      // }
+      feedsStore.setFeeds()
     }
   }, [feedsStore.feed]);
   return (

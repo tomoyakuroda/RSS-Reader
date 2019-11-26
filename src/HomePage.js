@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./HomePage.css";
 import { observer } from "mobx-react";
-import Card from "react-bootstrap/Card";
 import { Formik } from "formik";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";

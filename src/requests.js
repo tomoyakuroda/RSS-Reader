@@ -4,7 +4,7 @@ const corsUrl="https://api.rss2json.com/v1/api.json?rss_url=";
 export const getFeedURL=async (inputURL)=>{
 
     let feedURL = ''
-    const res = await axios.post('/.netlify/functions/getRSSFeedURL',{url:inputURL})
+    const res = await axios.post('http://localhost:9000/getRSSFeedURL',{url:inputURL})
         feedURL=res.data
     return feedURL;
 }
