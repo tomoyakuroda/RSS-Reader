@@ -49,12 +49,12 @@ function HomePage({ feedsStore }) {
       evt.name = response.data.feed.title;
       evt.url=feedURL
       let flag=true
-      while(flag)
-      feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false : null)
-      if(!flag) {
-        alert('Duplicate Feed')
-        return;
-      }
+      // while(flag)
+      // feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false : flag=true)
+      // if(!flag) {
+      //   alert('Duplicate Feed')
+      //   return;
+      // }
       
 
       feedsStore.feeds.push(evt);
