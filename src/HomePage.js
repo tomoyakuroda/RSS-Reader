@@ -33,12 +33,8 @@ function HomePage({ feedsStore }) {
     }
     try {
       const feedURL = await getFeedURL(evt.url)
-      console.log('feedURL')
-      console.log(feedURL)
       const response = await getFeedListing(feedURL);
       evt.name = response.data.feed.title;
-      console.log('evt')
-      console.log(evt)
       evt.url=feedURL
       feedsStore.feeds.push(evt);
       feedsStore.setFeeds(feedsStore.feeds);
