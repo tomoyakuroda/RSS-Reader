@@ -35,10 +35,13 @@ function HomePage({ feedsStore }) {
       const response = await getFeedListing(feedURL);
       evt.name = response.data.feed.title;
       evt.url=feedURL
+      let flag=true
+      while(flag)
+      feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false : null)
+      if(!flag) throw "Duplicate";
       feedsStore.feeds.push(evt);
       feedsStore.setFeeds(feedsStore.feeds);
       localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
-      evt.url=''
     } catch (err) {
       alert("Fail to get the Rss feeds");
     }
