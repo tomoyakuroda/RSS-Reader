@@ -33,7 +33,7 @@ function HomePage({ feedsStore }) {
 
       const originalResponse = await getFeedListing(evt.url);
       console.log(originalResponse)
-      if(originalResponse){
+      if(originalResponse.status!=="error"){
         setFeedURL(evt.url)
       }else{
         try {
