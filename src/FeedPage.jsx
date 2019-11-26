@@ -64,11 +64,12 @@ function FeedPage({ feedsStore, location }) {
                 {l.description.replace(/(<([^>]+)>)/gi, "")}
                 <Button
                   variant="light"
-                  onClick={openLink.bind(this, l.link)}
+                  href={l.link}
                   size="sm"
+                  target="_blank" rel="noopener noreferrer"
                 >
                   Read more
-                </Button>{" "}
+                </Button>
               </Card.Body>
             </Card>
           );
