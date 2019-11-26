@@ -49,17 +49,17 @@ function HomePage({ feedsStore }) {
       }
       // const feedURL = await getFeedURL(evt.url)
       // const response = await getFeedListing(feedURL);
-      evt.name = response.data.feed.title;
-      evt.url=feedURL
+      evt.name = await response.data.feed.title;
+      evt.url= await feedURL
       let flag=true
       for(let i=0; i<feedsStore.feeds.length && flag===true;i++){
-      feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :null)
+      feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :flag=true)
       }
       if(!flag) {
         alert('Duplicate Feed')
         return;
       }
-      
+      console.log(evt)
       feedsStore.feeds.push(evt);
       feedsStore.setFeeds(feedsStore.feeds);
       localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
