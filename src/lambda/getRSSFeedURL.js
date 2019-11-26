@@ -15,10 +15,9 @@ export function handler(event, context, callback) {
       return callback(null, {
         statusCode: 200,
         headers: {
-          "Content-Type": "text/plain",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers":
-            "Origin, X-Requested-With, Content-Type, Accept"
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
         },
         body: feedUrl
       });
