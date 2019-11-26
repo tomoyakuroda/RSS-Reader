@@ -93,7 +93,7 @@ function HomePage({ feedsStore }) {
                   <Form.Control
                     type="text"
                     name="url"
-                    placeholder="URL"
+                    placeholder="https://blog.mozilla.org/press"
                     value={values.url || ""}
                     onChange={handleChange}
                     isInvalid={touched.url && errors.url}
