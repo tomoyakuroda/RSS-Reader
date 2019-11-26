@@ -25,6 +25,19 @@ function HomePage({ feedsStore }) {
   // const [feedURL, setFeedURL] = useState('');
   const [response, setResponse] =useState({})
 
+  const storeFeed = evt =>{
+    let flag=true
+    for(let i=0; i<feedsStore.feeds.length && flag===true;i++){
+    feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :flag=true)
+    }
+    if(!flag) {
+      alert('Duplicate Feed')
+      return;
+    }
+    feedsStore.feeds.push(evt);
+    feedsStore.setFeeds(feedsStore.feeds);
+    localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
+  }
   const handleSubmit = async evt => {
     const isValid = await schema.validate(evt);
     if (!isValid) {
@@ -35,20 +48,8 @@ function HomePage({ feedsStore }) {
       // setResponse(res)
       // setFeedURL(evt.url)
       evt.name =  response.data.feed.title;
-      // evt.url=  feedURL
 
-      let flag=true
-      for(let i=0; i<feedsStore.feeds.length && flag===true;i++){
-      feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :flag=true)
-      }
-      if(!flag) {
-        alert('Duplicate Feed')
-        return;
-      }
-      console.log('evt', evt)
-      feedsStore.feeds.push(evt);
-      feedsStore.setFeeds(feedsStore.feeds);
-      localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
+        storeFeed(evt)
 
 
   }catch(err){ 
@@ -61,18 +62,7 @@ function HomePage({ feedsStore }) {
      evt.url=  URL
 
 
-     let flag=true
-     for(let i=0; i<feedsStore.feeds.length && flag===true;i++){
-     feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :flag=true)
-     }
-     if(!flag) {
-       alert('Duplicate Feed')
-       return;
-     }
-     console.log('evt', evt)
-     feedsStore.feeds.push(evt);
-     feedsStore.setFeeds(feedsStore.feeds);
-     localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
+     storeFeed(evt)
 
 
        }catch(error){
