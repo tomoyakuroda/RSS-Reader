@@ -32,8 +32,8 @@ function HomePage({ feedsStore }) {
     }
 
       try{
-      const response = await getFeedListing(evt.url);
-      setResponse(response)
+      const res = await getFeedListing(evt.url);
+      setResponse(res)
       //setFeedURL(evt.url)
   }catch(err){ console.log(err) }
       if(feedURL===''){
@@ -52,7 +52,7 @@ function HomePage({ feedsStore }) {
       evt.name = response.data.feed.title;
       evt.url=feedURL
       let flag=true
-      for(let i=0; i<feedsStore.feeds.length || flag===true;i++){
+      for(let i=0; i<feedsStore.feeds.length && flag===true;i++){
       feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :null)
       }
       if(!flag) {
