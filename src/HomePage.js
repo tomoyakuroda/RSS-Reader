@@ -59,7 +59,7 @@ function HomePage({ feedsStore }) {
         alert('Duplicate Feed')
         return;
       }
-      console.log(evt)
+      console.log('evt', evt)
       feedsStore.feeds.push(evt);
       feedsStore.setFeeds(feedsStore.feeds);
       localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
