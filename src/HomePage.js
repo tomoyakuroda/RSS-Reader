@@ -31,11 +31,11 @@ function HomePage({ feedsStore }) {
       return;
     }
 
+      try{
       const originalResponse = await getFeedListing(evt.url);
-      console.log(originalResponse)
-      if(originalResponse.status!=="error"){
-        setFeedURL(evt.url)
-      }else{
+      setFeedURL(evt.url)
+  }catch(err){ console.log(err) }
+      if(feedURL===''){
         try {
        const URL = await getFeedURL(evt.url)
        setFeedURL(URL)
