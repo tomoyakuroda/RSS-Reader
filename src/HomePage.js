@@ -22,7 +22,7 @@ const schema = yup.object({
 });
 function HomePage({ feedsStore }) {
   const [initialized, setInitialized] = useState(false);
-  const [redirectToFeed, setRedirectToFeed] = useState(false);
+  const [feedURL, setFeedURL] = useState('');
 
 
   const handleSubmit = async evt => {
@@ -30,21 +30,37 @@ function HomePage({ feedsStore }) {
     if (!isValid) {
       return;
     }
-    try {
-      const feedURL = await getFeedURL(evt.url)
-      const response = await getFeedListing(feedURL);
+
+      const originalResponse = await getFeedListing(evt.url);
+
+      if(originalResponse){
+        setFeedURL(evt.url)
+      }else{
+        try {
+       const URL = await getFeedURL(evt.url)
+       setFeedURL(URL)
+        }catch(error){
+          alert("Fail to get the Rss feeds");
+          return;
+        }
+      }
+      // const feedURL = await getFeedURL(evt.url)
+       const response = await getFeedListing(feedURL);
       evt.name = response.data.feed.title;
       evt.url=feedURL
       let flag=true
       while(flag)
       feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false : null)
-      if(!flag) throw "Duplicate";
+      if(!flag) {
+        alert('Duplicate Feed')
+        return;
+      }
+      
+
       feedsStore.feeds.push(evt);
       feedsStore.setFeeds(feedsStore.feeds);
       localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
-    } catch (err) {
-      alert("Fail to get the Rss feeds");
-    }
+     
   };
   const setSelectedFeed = url => {
     feedsStore.setSelectedFeed(url);
@@ -67,11 +83,11 @@ function HomePage({ feedsStore }) {
       setInitialized(true);
     }
   });
-  if (redirectToFeed) {
-    return (
-      <Redirect to={`/feed?${querystring.encode({ url: feedsStore.feed })}`} />
-    );
-  }
+  // if (redirectToFeed) {
+  //   return (
+  //     <Redirect to={`/feed?${querystring.encode({ url: feedsStore.feed })}`} />
+  //   );
+  // }
   return (
     <Layout feedsStore={feedsStore}>
       <div className="home-page vertical-center">
