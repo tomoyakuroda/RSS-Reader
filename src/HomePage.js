@@ -23,7 +23,7 @@ const schema = yup.object({
 function HomePage({ feedsStore }) {
   const [initialized, setInitialized] = useState(false);
   const [feedURL, setFeedURL] = useState('');
-
+  const [response, setResponse] =useState({})
 
   const handleSubmit = async evt => {
     const isValid = await schema.validate(evt);
@@ -32,29 +32,33 @@ function HomePage({ feedsStore }) {
     }
 
       try{
-      const originalResponse = await getFeedListing(evt.url);
-      setFeedURL(evt.url)
+      const response = await getFeedListing(evt.url);
+      setResponse(response)
+      //setFeedURL(evt.url)
   }catch(err){ console.log(err) }
       if(feedURL===''){
         try {
        const URL = await getFeedURL(evt.url)
-       setFeedURL(URL)
+       const res = await getFeedListing(URL);
+       setResponse(res)
+      //  setFeedURL(URL)
         }catch(error){
           alert("Fail to get the Rss feeds");
           return;
         }
       }
       // const feedURL = await getFeedURL(evt.url)
-       const response = await getFeedListing(feedURL);
+      // const response = await getFeedListing(feedURL);
       evt.name = response.data.feed.title;
       evt.url=feedURL
       let flag=true
-      // while(flag)
-      // feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false : flag=true)
-      // if(!flag) {
-      //   alert('Duplicate Feed')
-      //   return;
-      // }
+      for(let i=0; i<feedsStore.feeds.length || flag===true;i++){
+      feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :null)
+      }
+      if(!flag) {
+        alert('Duplicate Feed')
+        return;
+      }
       
 
       feedsStore.feeds.push(evt);
