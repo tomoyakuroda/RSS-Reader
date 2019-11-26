@@ -38,7 +38,7 @@ function FeedPage({ feedsStore, location }) {
     if (querystring.decode(location.search)["?url"]) {
       const url = querystring.decode(location.search)["?url"];
       getListings(url);
-      feedsStore.setFeeds(url)
+      // feedsStore.setFeeds()
     }
   }, [feedsStore.feed]);
   return (
