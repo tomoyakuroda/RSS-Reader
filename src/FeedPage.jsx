@@ -28,7 +28,7 @@ function FeedPage({ feedsStore, location }) {
     // feedsStore.feeds.splice(
     //   feedsStore.feeds.findIndex(element => element === item),1
     // );
-    let newFeeds=    feedsStore.feeds.filter(element=>element!==item)
+    let newFeeds=    feedsStore.feeds.filter(element=>element.url!==item)
 
     feedsStore.setFeeds(newFeeds);
     localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
