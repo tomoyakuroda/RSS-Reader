@@ -61,7 +61,6 @@ function HomePage({ feedsStore }) {
         return;
       }
     }
-
   };
   const setSelectedFeed = url => {
     feedsStore.setSelectedFeed(url);
@@ -112,11 +111,13 @@ function HomePage({ feedsStore }) {
                     placeholder="https://blog.mozilla.org/press"
                     value={values.url || ""}
                     onChange={handleChange}
-                    isInvalid={touched.url && errors.url}
+                    isInvalid={(touched.url && errors.url) || message}
                     required
                   />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.url} {message}
+                  <Form.Control.Feedback type="invalid" className='error-message'>
+                    <h6>
+                      {errors.url} {message}
+                    </h6>
                   </Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>

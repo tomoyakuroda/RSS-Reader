@@ -2,7 +2,7 @@
   text-align: center;
   overflow-x: hidden;
 
-  background-image: url('./assets/blue.jpg');
+  background-image: url('./assets/image.jpg');
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
@@ -35,3 +35,6 @@
   text-align:center;
 }
 
+.error-message{
+  font-weight: bold;
+}
