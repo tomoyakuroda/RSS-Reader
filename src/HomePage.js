@@ -96,7 +96,7 @@ const clearMessage = ()=>{
         <h2 className="center">
           Enter your favorite website and get the feeds!
         </h2>
-        <Formik validationSchema={schema} onSubmit={handleSubmit} onChange={clearMessage}>
+        <Formik validationSchema={schema} onSubmit={handleSubmit} >
           {({
             handleSubmit,
             handleChange,
@@ -115,7 +115,10 @@ const clearMessage = ()=>{
                     name="url"
                     placeholder="https://blog.mozilla.org/press"
                     value={values.url || ""}
-                    onChange={handleChange}
+                    onChange={(changeEvent )=>{
+                      handleChange(changeEvent.target.value)
+                      clearMessage()
+                    }}
                     isInvalid={(touched.url && errors.url) || message}
                     required
                   />
