@@ -104,19 +104,19 @@ const clearMessage = ()=>{
             values,
             touched,
             isInvalid,
-            errors
+            errors,
+            setFieldValue
           }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Row>
                 <Form.Group as={Col} md="12" controlId="url">
-                  {/* <Form.Label>URL</Form.Label> */}
                   <Form.Control
                     type="text"
                     name="url"
                     placeholder="https://blog.mozilla.org/press"
                     value={values.url || ""}
                     onChange={(changeEvent )=>{
-                      handleChange(changeEvent.target.value)
+                      setFieldValue('url',changeEvent.target.value)
                       clearMessage()
                     }}
                     isInvalid={(touched.url && errors.url) || message}
