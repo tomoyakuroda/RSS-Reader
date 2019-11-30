@@ -6,11 +6,9 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import * as yup from "yup";
-import { Redirect, Link } from "react-router-dom";
 import Layout from "./components/layout";
 import { getFeedListing, getFeedURL } from "./requests";
 
-const querystring = require("querystring");
 const schema = yup.object({
   url: yup
     .string()
@@ -22,73 +20,48 @@ const schema = yup.object({
 });
 function HomePage({ feedsStore }) {
   const [initialized, setInitialized] = useState(false);
-  // const [feedURL, setFeedURL] = useState('');
-  const [response, setResponse] =useState({})
-
-  const storeFeed = evt =>{
-    let flag=true
-    for(let i=0; i<feedsStore.feeds.length && flag===true;i++){
-    feedsStore.feeds.forEach(element=>element.url===evt.url ? flag=false :flag=true)
+  const [message, setMessage] = useState("");
+  const storeFeed = evt => {
+    let flag = true;
+    for (let i = 0; i < feedsStore.feeds.length && flag === true; i++) {
+      feedsStore.feeds.forEach(element =>
+        element.url === evt.url ? (flag = false) : (flag = true)
+      );
     }
-    if(!flag) {
-      alert('Duplicate Feed')
+    if (!flag) {
+      setMessage("The RSS is already registered");
       return;
     }
     feedsStore.feeds.push(evt);
     feedsStore.setFeeds(feedsStore.feeds);
     localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
-  }
+  };
   const handleSubmit = async evt => {
+    setMessage("");
     const isValid = await schema.validate(evt);
     if (!isValid) {
       return;
     }
-      try{
-      const response = await getFeedListing(evt.url);
-      // setResponse(res)
-      // setFeedURL(evt.url)
-      evt.name =  response.data.feed.title;
-
-        storeFeed(evt)
-
-
-  }catch(err){ 
     try {
-      const URL = await getFeedURL(evt.url)
-      const response = await getFeedListing(URL);
-     //  setResponse(res)
-     //  setFeedURL(URL)
-     evt.name =  response.data.feed.title;
-     evt.url=  URL
+      const response = await getFeedListing(evt.url);
+      evt.name = response.data.feed.title;
 
+      storeFeed(evt);
+      setMessage("The RSS is successfully registered");
+    } catch (err) {
+      try {
+        const URL = await getFeedURL(evt.url);
+        const response = await getFeedListing(URL);
+        evt.name = response.data.feed.title;
+        evt.url = URL;
+        storeFeed(evt);
+        setMessage("The RSS is successfully registered");
+      } catch (error) {
+        setMessage("Fail to get the RSS feeds");
+        return;
+      }
+    }
 
-     storeFeed(evt)
-
-
-       }catch(error){
-         alert("Fail to get the Rss feeds");
-         return;
-       }
-   }
-
-      //   try {
-      //  const URL = await getFeedURL(evt.url)
-      //  const response = await getFeedListing(URL);
-      // //  setResponse(res)
-      // //  setFeedURL(URL)
-      // evt.name =  response.data.feed.title;
-      // evt.url=  URL
-      //   }catch(error){
-      //     alert("Fail to get the Rss feeds");
-      //     return;
-      //   }
-      
-      // const feedURL = await getFeedURL(evt.url)
-      // const response = await getFeedListing(feedURL);
-      // evt.name =  response.data.feed.title;
-      // evt.url=  feedURL
-
-     
   };
   const setSelectedFeed = url => {
     feedsStore.setSelectedFeed(url);
@@ -111,11 +84,7 @@ function HomePage({ feedsStore }) {
       setInitialized(true);
     }
   });
-  // if (redirectToFeed) {
-  //   return (
-  //     <Redirect to={`/feed?${querystring.encode({ url: feedsStore.feed })}`} />
-  //   );
-  // }
+
   return (
     <Layout feedsStore={feedsStore}>
       <div className="home-page vertical-center">
@@ -144,9 +113,10 @@ function HomePage({ feedsStore }) {
                     value={values.url || ""}
                     onChange={handleChange}
                     isInvalid={touched.url && errors.url}
-                  />{" "}
+                    required
+                  />
                   <Form.Control.Feedback type="invalid">
-                    {errors.url}
+                    {errors.url} {message}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
@@ -154,29 +124,6 @@ function HomePage({ feedsStore }) {
             </Form>
           )}
         </Formik>
-        <br />
-        {/* {feedsStore.feeds.map((f, i) => {
-          return (
-            <Card key={i}>
-              <Card.Title className="card-title">{f.name}</Card.Title>
-              <Card.Body>
-                <p>{f.url}</p>
-                <Link to={`feed?url=${f.url}`}>
-                <Button
-                  variant="primary"
-                  onClick={setSelectedFeed.bind(this, f.url)}
-                >
-                  Open
-                </Button>{" "}
-                </Link>
-
-                <Button variant="primary" onClick={deleteFeed.bind(this, i)}>
-                  Delete
-                </Button>
-              </Card.Body>
-            </Card>
-          );
-        })} */}
       </div>
     </Layout>
   );
