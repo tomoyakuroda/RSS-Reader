@@ -35,6 +35,7 @@ function HomePage({ feedsStore }) {
     feedsStore.feeds.push(evt);
     feedsStore.setFeeds(feedsStore.feeds);
     localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
+    setMessage("The RSS is successfully registered");
   };
   const handleSubmit = async evt => {
     setMessage("");
@@ -47,7 +48,7 @@ function HomePage({ feedsStore }) {
       evt.name = response.data.feed.title;
 
       storeFeed(evt);
-      setMessage("The RSS is successfully registered");
+      
     } catch (err) {
       try {
         const URL = await getFeedURL(evt.url);
@@ -55,13 +56,17 @@ function HomePage({ feedsStore }) {
         evt.name = response.data.feed.title;
         evt.url = URL;
         storeFeed(evt);
-        setMessage("The RSS is successfully registered");
       } catch (error) {
         setMessage("Fail to get the RSS feeds");
         return;
       }
     }
   };
+
+const clearMessage = ()=>{
+  setMessage('')
+}
+
   const setSelectedFeed = url => {
     feedsStore.setSelectedFeed(url);
     // setRedirectToFeed(true);
@@ -91,7 +96,7 @@ function HomePage({ feedsStore }) {
         <h2 className="center">
           Enter your favorite website and get the feeds!
         </h2>
-        <Formik validationSchema={schema} onSubmit={handleSubmit}>
+        <Formik validationSchema={schema} onSubmit={handleSubmit} onChange={clearMessage}>
           {({
             handleSubmit,
             handleChange,
